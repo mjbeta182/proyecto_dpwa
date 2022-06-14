@@ -1,0 +1,174 @@
+﻿@model proyecto_dpwa.Models.usuario
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+@{ ViewBag.Title = "Login";
+    Layout = null;}
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="sweetalert2.all.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+    $("#btnIngresar").on("click", function () {
+
+        var formulario = $("#formLogin");
+        $.ajax({
+            type: 'post',
+            data: formulario.serialize(), url: '@Url.Action("LoginUsuario", "Usuario")'
+        }).done(function (respuesta) {
+            console.log(respuesta);
+            if (respuesta) {
+                //alert('¡Bienvenido!');
+                var url = '@Url.Action("Index", "Home")';
+                window.location.href = url;
+            }
+            else
+                //alert('¡Datos incorrectos!');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '¡Datos incorrectos!',
+                })
+        }).fail(function () {
+            alert('¡Error de login!');
+        });
+
+    });
+       $("#btnRegistrar").on("click", function () {
+           verificarPasswords();
+           if (verificarPasswords()) {
+           var formulario = $("#formRegistro");
+           $.ajax({
+               type: 'post',
+               data: formulario.serialize(), url: '@Url.Action("RegistroUsuario", "Usuario")',
+               success: function (data) {
+                   if (data.success) {
+
+                       Swal.fire({
+                           icon: 'success',
+                           title: 'Exito',
+                           text: data.message,
+                       })
+
+                       document.getElementById("txtCod").value = "";
+                       document.getElementById("txtNombreRegistro").value = "";
+                       document.getElementById("txtUsuarioRegistro").value = "";
+                       document.getElementById("txtPassRegistro").value = "";
+                       document.getElementById("txtPass2").value = "";
+                       document.getElementById("txtNombreUsuario").focus();
+                   } else {
+                       Swal.fire({
+                           icon: 'warning',
+                           title: 'Error',
+                           text: data.message,
+                       })
+                   }
+                }
+           });
+           }
+    });
+
+    });
+    function verificarPasswords() {
+        pass1 = document.getElementById('txtPassRegistro');
+        pass2 = document.getElementById('txtPass2');
+        if ((pass1.value == "" || pass2.value == "")) {
+
+        } else {
+            // Verificamos si las constraseñas no coinciden
+            if (pass1.value != pass2.value) {
+                // Si las constraseñas no coinciden mostramos un mensaje
+                document.getElementById("error").classList.add("mostrar");
+                return false;
+            }
+            else {
+                // Si las contraseñas coinciden ocultamos el mensaje de error
+                document.getElementById("error").classList.remove("mostrar");
+                // Mostramos un mensaje mencionando que las Contraseñas coinciden
+                document.getElementById("ok").classList.remove("ocultar");
+                // Desabilitamos el botón de login
+                document.getElementById("btnRegistrar").disabled = true;
+                return true;
+            }
+        }
+    }
+</script>
+<style>
+.ocultar {
+    display: none;
+}
+
+.mostrar {
+    display: block;
+}
+</style>
+<main class="my-5">
+    <div class="container">
+        <div class="row">
+            <!-- Formulario inicio sesion -->
+            <div class="col-md-6">
+                <h4 class="mb-3 pb-3 border-bottom">Iniciar sesion</h4>
+                <p class="text-muted">Bienvenido, entra a tu cuenta</p>
+                <br>
+                @using (Html.BeginForm("usuario", "Usuario", FormMethod.Post,
+                htmlAttributes: new { id = "formLogin" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.id, htmlAttributes: new { id = "txtCodUsuario" })
+                    @Html.TextBoxFor(x => x.nombre_usuario, htmlAttributes: new { id = "txtNombreUsuario", @class = "form-control", @placeholder = "Usuario", required = "required" })
+                    @Html.ValidationMessageFor(model => model.nombre_usuario)
+                    <br>
+                    @Html.PasswordFor(x => x.pass, htmlAttributes: new { id = "txtPass", @class = "form-control", @placeholder = "Contraseña" })
+                    @Html.HiddenFor(x => x.rol, htmlAttributes: new { id = "txtRolUsuario" })}
+                @Html.ValidationMessageFor(model => model.pass)
+                <br>
+                <br>
+                <input type="submit" id="btnIngresar" value="Ingresar" class="btn btn-outline-secondary btn-sm txt:uppercase" color:white" />
+                <br>
+            </div>
+
+            <!-- Formulario registro -->
+            <div class="col-md-6">
+                <h4 class="mb-3 pb-3 border-bottom">Crear una cuenta nueva</h4>
+                <p class="text-muted">Create tu cuenta con tu usuario, correo electrónico y contraseña.</p>
+
+                <div id="msg"></div>
+
+                <!-- Mensajes de Verificación de contraseña -->
+                <div id="error" class="alert alert-danger ocultar" role="alert">
+                    Las Contraseñas no coinciden, vuelve a intentar !
+                </div>
+                <div id="ok" class="alert alert-success ocultar" role="alert">
+                    Las Contraseñas coinciden ! (Procesando formulario ... )
+                </div>
+
+                <br>
+                @using (Html.BeginForm("usuario", "Usuario", FormMethod.Post,
+                htmlAttributes: new { id = "formRegistro" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.id, htmlAttributes: new { id = "txtCod" })
+                    @Html.TextBoxFor(model => model.nombre, htmlAttributes: new { id = "txtNombreRegistro", @class = "form-control", @placeholder = "Nombre Completo" })
+                    @Html.ValidationMessageFor(model => model.nombre)
+                    <br>
+                    @Html.TextBoxFor(model => model.nombre_usuario, htmlAttributes: new { id = "txtUsuarioRegistro", @class = "form-control", @placeholder = "Usuario" })
+                    @Html.ValidationMessageFor(model => model.nombre_usuario)
+                    <br>
+                    @Html.PasswordFor(model => model.pass, htmlAttributes: new { id = "txtPassRegistro", @class = "form-control", @placeholder = "Contraseña" })
+                    @Html.ValidationMessageFor(model => model.pass)
+                    <br>
+                    @Html.PasswordFor(model => model.pass2, htmlAttributes: new { id = "txtPass2", @class = "form-control", @placeholder = "Confirmar Contraseña" })
+                    @Html.HiddenFor(model => model.rol, htmlAttributes: new { @Value = 2, id = "txtRolUsuarioRegistro" })}
+                <br>
+                <br>
+                <input type="submit" id="btnRegistrar" value="Registro Usuario" class="btn btn-outline-secondary btn-sm txt:uppercase" color:white" />
+                <br>
+            </div>
+        </div>
+    </div>
+</main>
+
+

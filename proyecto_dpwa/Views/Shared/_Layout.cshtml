@@ -1,0 +1,328 @@
+﻿<script src="~/Scripts/jquery-3.4.1.js"></script>
+
+
+@if (Session["rol"] == null)
+{
+
+}
+else if (Session["rol"].Equals("1"))
+{
+    <style>
+        #clt, #sesion, #registrarse {
+            display: none;
+        }
+    </style>
+}
+else
+{
+    <style>
+        #adm, #sesion, #registrarse {
+            display: none;
+        }
+    </style>
+}
+
+<script>
+    $(document).ready(function () {
+    //BOTON btnCerrarSesion
+        $("#btnCerrarSesion").on("click", function () {
+            var url = '@Url.Action("IniciarSesion", "Home")';
+            window.location.href = url;
+        });
+    });
+</script>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/bootstrap.css")
+    @Styles.Render("~/Content/Main.css")
+    @Scripts.Render("~/Scripts/bootstrap.js")
+    @Scripts.Render("~/Scripts/jquery-3.4.1.js")
+    @Scripts.Render("~/Scripts/Slick.js")
+    @Scripts.Render("~/Scripts/EstadoCarrito.js")
+    @Scripts.Render("~/Scripts/Global.js")
+    @Scripts.Render("~/Scripts/Carrito.js")
+    @Scripts.Render("~/bundles/jqueryval")
+</head>
+<body>
+    <header>
+        <!-- Navbar secundario -->
+        <div class="container">
+            <div class="row align-items-center pt-2 pb-2 small">
+                <!-- Contenido de izquierda -->
+                <div class="col-md-4">
+                    <ul class="list-group list-group-horizontal justify-content-center">
+                        <li class="list-group-item border-start-0 border-bottom-0 border-top-0">
+                            @Html.ActionLink("Nosotros", "Nosotros", "Home", new { @class = "text-decoration-none" })
+                        </li>
+                        <li class="list-group-item border-0">
+                            @Html.ActionLink("Contacto", "Contacto", "Home", new { @class = "text-decoration-none" })
+                        </li>
+                    </ul>
+                </div>
+                <!-- Contenido de centro -->
+                <div class="col-md-4 text-center">
+                    <ul class="list-group list-group-horizontal justify-content-center align-items-center">
+                        <li class="list-group-item border-start-0 border-bottom-0 border-top-0">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a href="https://www.facebook.com/" target="_blank"><i class="bi bi-facebook me-2"></i></a>
+                                    <a href="https://www.youtube.com/" target="_blank"><i class="bi bi-youtube me-2"></i></a>
+                                    <a href="https://twitter.com/" target="_blank"><i class="bi bi-twitter me-2"></i></a>
+                                    <a href="https://www.instagram.com/" target="_blank"><i class="bi bi-instagram me-2"></i></a>
+                                    <a href="https://www.google.com/" target="_blank"><i class="bi bi-google me-2"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li id="clt" class="list-group-item border-start-0 border-bottom-0 border-top-0">
+                            <i class="bi bi-telephone-fill"></i>
+                            <span class="fw-bold">(503) 7854-4574</span>
+                        </li>
+                        <li id="clt" class="list-group-item border-0">
+                            <a href="">
+                                <span class="badge bg-warning text-dark">Ayuda</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Contenido de derecha -->
+                <div class="col-md-4 text-center">
+                    <ul class="list-group list-group-horizontal justify-content-center">
+                        @if (Session["nombre_usuario"] != null)
+                        {
+                            <p style="text-align:left";>
+                                Bienvenido: <b> @Session["nombre"].ToString()</b>
+                            </p>
+                        }
+                        <li id="sesion" class="list-group-item border-start-0 border-bottom-0 border-top-0">
+                            @Html.ActionLink("Iniciar Sesion", "IniciarSesion", "Home", new { @class = "text-decoration-none" })
+                        </li>
+                        <li id="registrarse" class="list-group-item border-0">
+                            @Html.ActionLink("Registrarse", "IniciarSesion", "Home", new { @class = "text-decoration-none" })
+                        </li>
+                        <li id="cerrarsesion" class="list-group-item border-0">
+                            <input style="float:right" type="button" id="btnCerrarSesion" value="Cerrar Sesión" class="btn btn-toolbar" />
+                            <input type="hidden" value="@Session["rol"].ToString()" id="rol">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Navbar principal -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light pt-5 pb-5">
+            <div class="container">
+                <a class="navbar-brand" href="/Home">
+                    <img src="https://reyesmarq.github.io/proyecto_dpw/images/ninis-iso.png" alt="" width="100">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
+                        aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item border-end ps-2 pe-2">
+                            <a class="nav-link active" aria-current="home" href="../index.html">
+                                <i class="bi bi-house-door-fill text-secondary"></i>
+                            </a>
+                        <li id="adm" class="nav-item border-end ps-2 pe-2">
+                            <a class="nav-link" href="../CrudProducto/Index">Mantenimiento Productos</a>
+                        </li>
+                        <li id="adm" class="nav-item border-end ps-2 pe-2">
+                            <a class="nav-link" href="../Home/RptProductos">Reporte Productos</a>
+                        </li>
+                        <li id="adm" class="nav-item border-end ps-2 pe-2">
+                            <a class="nav-link" href="../Home/RptProductosCategoria">Reporte Productos por Categoria</a>
+                        </li>
+                        <li id="clt" class="nav-item border-end ps-2 pe-2">
+                            <a class="nav-link" href="./configurar_pc.html">Configurar PC</a>
+                        </li>
+                        <li id="clt" class="nav-item border-end ps-2 pe-2">
+                            <a class="nav-link" href="#">Asus PC</a>
+                        </li>
+                        <li id="clt" class="nav-item ps-2 pe-2">
+                            <a class="nav-link" href="#">Aorus PC</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   style="border-bottom-left-radius: 20px; border-top-left-radius: 20px;">
+                            <button class="btn btn-info" type="button" id="btnBuscar">Buscar</button>
+                        </div>
+                    </form>
+                    <a id="clt" class="navbar-text cursor:pointer text-decoration-none ms-3" href="/Home/Carrito">
+                        <span class="pe-none" id="carrito">0<i class="bi bi-cart pe-none"></i> | Comprar</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @RenderBody()
+
+    <footer>
+        <!-- Info y data -->
+        <div class="pt-5 pb-5 bg:c:dark">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <!-- Primera lista -->
+                    <div class="col-md-2">
+                        <ul class="list-group list-group:effect border-0">
+                            <li class="list-group-item list-group-item-action bg:c:transparent border-0 text-white border-bottom border-secondary text-start ps-0">
+                                <span class="small pe-3">●</span>
+                                <a class="small text-white text-decoration-none">
+                                    Pride
+                                </a>
+                            </li>
+                            <li class="list-group-item list-group-item-action bg:c:transparent border-0 text-white border-bottom border-secondary text-start ps-0">
+                                <span class="small pe-3">●</span>
+                                <a class="small text-white text-decoration-none" href="./configurar_pc.html">
+                                    Configurar
+                                </a>
+                            </li>
+                            <li class="list-group-item list-group-item-action bg:c:transparent border-0 text-white border-bottom border-secondary text-start ps-0">
+                                <span class="small pe-3">●</span>
+                                <a class="small text-white text-decoration-none" href="./nosotros.html">
+                                    Nosotros
+                                </a>
+                            </li>
+                            <li class="list-group-item list-group-item-action bg:c:transparent border-0 text-white border-bottom border-secondary text-start ps-0">
+                                <span class="small pe-3">●</span>
+                                <a class="small text-white text-decoration-none" href="./promocion.html">
+                                    Promociones
+                                </a>
+                            </li>
+                            <li class="list-group-item list-group-item-action bg:c:transparent border-0 text-white border-bottom border-secondary text-start ps-0 b:r:0">
+                                <span class="small pe-3">●</span>
+                                <a class="small text-white text-decoration-none" href="./contacto.html">
+                                    Contacto
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Segunda lista -->
+                    <div class="col-md-2">
+                        <ul class="list-group list-group:effect border-0">
+                            <li class="list-group-item list-group-item-action bg:c:transparent border-0 text-white border-bottom border-secondary text-start ps-0">
+                                <span class="small pe-3">●</span>
+                                <a class="small text-white text-decoration-none">
+                                    Pride
+                                </a>
+                            </li>
+                            <li class="list-group-item list-group-item-action bg:c:transparent border-0 text-white border-bottom border-secondary text-start ps-0">
+                                <span class="small pe-3">●</span>
+                                <a class="small text-white text-decoration-none" href="./preguntas_frecuentes.html">
+                                    Preguntas frecuentes
+                                </a>
+                            </li>
+                            <li class="list-group-item list-group-item-action bg:c:transparent border-0 text-white border-bottom border-secondary text-start ps-0 b:r:0">
+                                <span class="small pe-3">●</span>
+                                <a class="small text-white text-decoration-none" href="./aviso_legal.html">
+                                    Aviso legal
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Logo & copyright -->
+                    <div class="col-md-2 text-center text-white small">
+                        <img src="https://reyesmarq.github.io/proyecto_dpw/images/ninis-isowhite.png" alt="" width="100">
+                        <p class="mb-0">Ninis © 2021</p>
+                        <p>Desarrollado por <span class="fw-bold">dpw</span></p>
+                    </div>
+
+                    <!-- Informacion de contacto -->
+                    <div class="col-md-2 text-center text-white small">
+                        <div class="d-flex mb-2">
+                            <div class="flex-shrink-0">
+                                <i class="bi bi-geo-alt-fill"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3 text-start">
+                                Plaza Diseño
+                                10 calle ote
+                                Santa Tecla, La Libertad, El Salvador
+                            </div>
+                        </div>
+                        <div class="d-flex mb-2">
+                            <div class="flex-shrink-0">
+                                <i class="bi bi-telephone-fill"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3 text-start">
+                                (503) 7854-4574
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                                <i class="bi bi-envelope-fill"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3 text-start">
+                                ventas@ninis.com.sv
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <a href="https://www.facebook.com/" target="_blank" class="me-2">
+                                <span class="badge bg-primary">
+                                    <i class="bi bi-hand-thumbs-up-fill"></i>
+                                    Me gusta
+                                </span>
+                            </a>
+                            <a href="https://www.facebook.com/" target="_blank">
+                                <span class="badge bg-primary">Compartir</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Redes sociales -->
+                    <div class="col-md-2 text-center text-white">
+                        <a href="https://www.facebook.com/" target="_blank" class="text-decoration-none">
+                            <span class="h4"><i class="bi bi-facebook me-4 text-white"></i></span>
+                        </a>
+                        <a href="https://www.youtube.com/" target="_blank" class="text-decoration-none">
+                            <span class="h4"><i class="bi bi-youtube me-4 text-white"></i></span>
+                        </a>
+                        <a href="https://twitter.com/" target="_blank" class="text-decoration-none">
+                            <span class=" h4"><i class="bi bi-twitter me-4 text-white"></i></span>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank" class="text-decoration-none">
+                            <span class="h4"><i class="bi bi-instagram me-4 text-white"></i></span>
+                        </a>
+                        <a href="https://www.google.com/" target="_blank" class="text-decoration-none">
+                            <span class="h4"><i class="bi bi-google me-4 text-white"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Formas de pago -->
+    <aside>
+        <div class="bg-dark">
+            <div class="container py-3">
+                <div class="row d-flex align-items-center justify-content-end">
+                    <div class="col-lg-1 d-flex justify-content-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Banco-agricola-sv.png" alt="" width="80">
+                    </div>
+                    <div class="col-lg-1 d-flex justify-content-center">
+                        <img src="https://logos-marcas.com/wp-content/uploads/2020/04/Visa-Emblema.png" alt="" width="80">
+                    </div>
+                    <div class="col-lg-1 d-flex justify-content-center">
+                        <img src="https://1000marcas.net/wp-content/uploads/2019/12/MasterCard-Logo.png" alt="" width="80">
+                    </div>
+                    <div class="col-lg-1 d-flex justify-content-center">
+                        <img src="https://logos-marcas.com/wp-content/uploads/2020/08/Bitcoin-Logo.png" alt="" width="80">
+                    </div>
+                    <div class="col-lg-1 d-flex justify-content-center">
+                        <img src="https://logos-marcas.com/wp-content/uploads/2020/04/PayPal-Logo.png" alt="" width="80">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+</body>
+</html>

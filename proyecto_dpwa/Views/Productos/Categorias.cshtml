@@ -1,0 +1,190 @@
+﻿
+@{
+    ViewBag.Title = "Categorias";
+}
+
+<script>
+    document.addEventListener('DOMContentLoaded', async (e) => {
+      let { pathname, search } = window.location;
+
+      let { nombre } = search
+        .split('?')
+        .map((pair) => {
+          if (pair !== '') return pair.split('=');
+        })
+        .filter((values) => values)
+        .reduce((json, params) => {
+          let key = params[0];
+          let value = params[1];
+          return { ...json, [key]: value };
+        }, {});
+
+      // si no existe id por parametro nos redirecciona a index
+      if (!nombre) window.location.href = '../../index.html';
+
+      let { productos } = await fetch(
+        '/Productos/GetProductosPorCategoria?nombre=' + nombre
+      ).then((res) => res.json());
+
+      let productosCategoria = productos.filter((p) => p.categoria == nombre);
+
+      // Si no se encuentra ningun producto con esa categoria regresar al index
+      if (productosCategoria.length === 0)
+        window.location.href = '../../index.html';
+
+      let ProductosContainer = document.getElementById('productosContainer');
+      let NombreCategoria = document.getElementById('nombreCategoria');
+
+      let productosHtml = productosCategoria
+        .map((producto, index) => {
+          const { images, descripcion, precio, id, categoria } = producto;
+          const imageUrl = `https://reyesmarq.github.io/proyecto_dpw/images/${images[0]}.PNG`;
+
+          return `
+          <div class="col-md-3">
+            <div class="card mb-4 border-0 shadow-sm card:effect">
+              <img src="${imageUrl}" alt="" class="card-img-top card:img:crop">
+              <div class="card-body">
+                <p class="cart-text small txt:trun:5">
+                  ${descripcion}
+                </p>
+                <h6 class="card-title fw-bold text-primary">$${precio}</h6>
+              </div>
+              <div class="card-footer d-flex justify-content-between bg-white border-0">
+                <button class="btn btn-success btn-sm"
+                  data-product-id=${id}
+                  data-product-image-url=${images[0]}
+                  data-product-description="${descripcion}"
+                  data-product-price=${precio}
+                >
+                  <i class="bi bi-cart me-2 pe-none"></i>
+                  <span class="pe-none">Agregar</span>
+                </button>
+                <a class="btn btn-outline-info btn-sm" href="../producto.html?id=${id}" id="productoUrl">
+                  <i class="bi bi-plus-square me-2 pe-none"></i>
+                  <span class="pe-none">Ver mas</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          `;
+        })
+        .join(',')
+        .replace(/\,/g, '')
+        .toString();
+
+      ProductosContainer.innerHTML = productosHtml;
+      NombreCategoria.innerHTML = nombre;
+    });
+
+</script>
+
+<main>
+    <div class="container mt-4 mb-4">
+        <div class="row gap-3">
+            <!-- Contenido principal -->
+            <div class="col p-0">
+
+                <div class="border-bottom pb-2 mb-4">
+                    <div aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Productos</li>
+                            <li class="breadcrumb-item active text-success" aria-current="page" id="nombreCategoria"></li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- Contenido de las tarjetas de productos -->
+                <div class="row" id="productosContainer">
+                    <!-- Secion don de se insertaran los productos a traves de javascript -->
+                </div>
+            </div>
+
+            <!-- Categorias -->
+            <div class="col-md-3 p-0">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex b:r:0">
+                        <i class="bi bi-mouse me-4"></i>
+                        <a class="flex-grow-1 text-decoration-none cursor:pointer text-dark"
+                           href="/Productos/Categorias?nombre=accesorios">
+                            Accesorios
+                        </a>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </li>
+
+                    <li class="list-group-item d-flex">
+                        <i class="bi bi-mic me-4"></i>
+                        <a class="flex-grow-1 text-decoration-none cursor:pointer text-dark" href="/Productos/Categorias?nombre=audio">
+                            Audio
+                        </a>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </li>
+
+                    <li class="list-group-item d-flex">
+                        <i class="bi bi-laptop me-4"></i>
+                        <a class="flex-grow-1 text-decoration-none cursor:pointer text-dark" href="/Productos/Categorias?nombre=computadoras">
+                            Computadoras
+                        </a>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </li>
+
+                    <li class="list-group-item d-flex">
+                        <i class="bi bi-upc-scan me-4"></i>
+                        <a class="flex-grow-1 text-decoration-none cursor:pointer text-dark" href="/Productos/Categorias?nombre=componentes">
+                            Componentes
+                        </a>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </li>
+
+                    <li class="list-group-item d-flex">
+                        <i class="bi bi-menu-app me-4"></i>
+                        <a class="flex-grow-1 text-decoration-none cursor:pointer text-dark" href="/Productos/Categorias?nombre=almacenamiento">
+                            Almacenamiento
+                        </a>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </li>
+
+                    <li class="list-group-item d-flex">
+                        <i class="bi bi-printer me-4"></i>
+                        <a class="flex-grow-1 text-decoration-none cursor:pointer text-dark" href="/Productos/Categorias?nombre=impresion">
+                            Impresion
+                        </a>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </li>
+
+                    <li class="list-group-item d-flex">
+                        <i class="bi bi-disc me-4"></i>
+                        <a class="flex-grow-1 text-decoration-none cursor:pointer text-dark" href="/Productos/Categorias?nombre=software">
+                            Software
+                        </a>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </li>
+
+                    <li class="list-group-item d-flex">
+                        <i class="bi bi-display me-4"></i>
+                        <a class="flex-grow-1 text-decoration-none cursor:pointer text-dark" href="/Productos/Categorias?nombre=monitores">
+                            Monitores
+                        </a>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </li>
+
+                    <li class="list-group-item d-flex">
+                        <i class="bi bi-hdd-network me-4"></i>
+                        <a class="flex-grow-1 text-decoration-none cursor:pointer text-dark" href="/Productos/Categorias?nombre=redes">
+                            Redes
+                        </a>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </li>
+
+                    <li class="list-group-item d-flex b:r:0">
+                        <i class="bi bi-battery me-4"></i>
+                        <a class="flex-grow-1 text-decoration-none cursor:pointer text-dark" href="/Productos/Categorias?nombre=energia">
+                            Energia
+                        </a>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+

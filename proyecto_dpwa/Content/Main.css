@@ -1,0 +1,171 @@
+﻿:root {
+  --carousel-item-height: 320px;
+}
+
+/********************************************************
+ * Estilos para modificar bootstrap
+ *******************************************************/
+
+.carousel\:item {
+  height: var(--carousel-item-height);
+}
+
+.carousel\:item img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover !important;
+  object-position: 0 30% !important;
+}
+
+.card\:effect > .card-footer > button.btn {
+  transition: 0.5s all;
+}
+
+.list-group\:effect > li {
+  transition: 0.5s all;
+}
+
+.list-group\:effect > li:hover,
+.list-group\:effect > li:hover > a {
+  color: #0dcaf0 !important;
+}
+
+.card\:bg\:img,
+.img\:100 {
+  height: 100%;
+  width: 100%;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+.footer\:card {
+  height: 350px;
+}
+
+/* Remueve el outline del componente accordion */
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: rgba(0, 0, 0, 0.125);
+}
+
+button[data-bs-target='#carousel'] > [aria-hidden='true'] {
+  background-color: #0dcaf0 !important;
+  border-radius: 6px !important;
+}
+
+.navbar.navbar-expand-lg.navbar-light.bg-light {
+  background-color: #f5fdff !important;
+}
+
+.nav-item > .nav-link.active {
+  color: #0dcaf0 !important;
+  font-weight: bolder !important;
+}
+
+/* estilo para barra secundaria parte izquierda */
+header .list-group-item a.text-decoration-none {
+  color: unset;
+}
+
+header .container .row div:nth-child(2) ul li .row .col-sm-12 > a, /* estilo para barra secundaria parte media */
+header .container .row div:nth-child(3) a:hover ul > li, /* estilo nav secundaria parte derecha */
+header .list-group-item a.text-decoration-none:hover {
+  color: #0dcaf0 !important;
+}
+
+/********************************************************
+ * Utilities classes
+ * Convencion, propiedad:[propiedad-secundaria]:valor
+ *******************************************************/
+.b\:r\:0 {
+  border-radius: 0 !important;
+}
+
+.bc\:red {
+  background-color: red !important;
+}
+
+.txt\:trun\:5 {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.bg\:sheet {
+  position: relative !important;
+}
+
+.bg\:sheet::after {
+  content: '';
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.bg\:c\:transparent {
+  background-color: transparent !important;
+}
+
+.bg\:c\:dark {
+  background-color: #202020 !important;
+}
+
+.zi\:normal {
+  z-index: 10;
+}
+
+.zi\:tooltip {
+  z-index: 100;
+}
+
+.txt\:uppercase {
+  text-transform: uppercase;
+}
+
+.txt\:lowercase {
+  text-transform: lowercase;
+}
+
+.cursor\:pointer:hover {
+  cursor: pointer;
+}
+
+.alert\:fixed {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+/* navbar */
+ul.navbar-nav > li.nav-item:hover {
+  background: #0dcaf0;
+}
+
+/* categorias */
+.col-md-3.p-0 > .list-group > .list-group-item:hover {
+  background: #0dcaf0;
+}
+
+
+.responsive-map-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+}
+
+.responsive-map-container iframe,   
+.responsive-map-container object,  
+.responsive-map-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

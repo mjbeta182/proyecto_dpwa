@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "Carrito";
+}
+
+<main class="my-5">
+    <div class="container">
+        <!-- Botones -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-sm px-4 mb-2">
+                    <i class="bi bi-facebook pe-none pe-1"></i>
+                    Compartir en facebook
+                </button>
+                <button class="btn btn-secondary btn-sm px-4 mb-2">
+                    <i class="bi bi-share-fill pe-none pe-1"></i>
+                    Compartir carrito de compras
+                </button>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <button class="btn btn-danger btn-sm px-4" id="btnBorrarCarrito">
+                    <i class="bi bi-trash pe-none pe-1"></i>
+                    Vaciar carrito de compras
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabla de productos -->
+        <div class="table-responsive">
+            <table class="table border mb-4">
+                <thead>
+                    <tr class="text-center small">
+                        <th scope="col" class="border">Imagen</th>
+                        <th scope="col" class="border">Descripcion del producto</th>
+                        <th scope="col" class="border">cantidad</th>
+                        <th scope="col" class="border">Precio unitario</th>
+                        <th scope="col" class="border">Precio Total</th>
+                        <th scope="col" class="border">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody id="checkoutBody">
+                    <!-- Seccion de los productos, injectados con javascript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cartas resumen -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-header py-3 fw-bold txt:uppercase">
+                        Tipo de entrega
+                        <h6 class="text-muted small txt:lowercase mt-1">
+                            Todos los envíos se realizan en días hábiles.
+                        </h6>
+                    </div>
+                    <div class="card-body pb-4">
+                        <label for="factura" class="form-label small">Elija una opcion</label>
+                        <select class="form-select" id="factura">
+                            <option value="ticket" selected>Ticket</option>
+                            <option value="factura">Factura</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-header py-3 fw-bold txt:uppercase">
+                        Factura
+                        <h6 class="text-muted small txt:lowercase mt-1">
+                            Selecciona Ticket, si solo necesita su comprobante en caso de garantía. Selecciona Factura, si necesita
+                            declarar impuestos ante hacienda.
+                        </h6>
+                    </div>
+                    <div class="card-body pb-4">
+                        <div class="form-control border-0">
+                            <label for="entrega" class="form-label small">Tipo de entrega</label>
+                            <select class="form-select" id="entrega">
+                                <option value="recoger" selected>Recoger en una sucursal</option>
+                                <option value="domicilio">A domicilio</option>
+                            </select>
+                        </div>
+                        <div class="form-control border-0">
+                            <label for="metodo-pago" class="form-label small">Metodo de pago</label>
+                            <select class="form-select" id="metodo-pago">
+                                <option value="sucursal" selected>Pagar en sucursal</option>
+                                <option value="linea">Pagar en linea</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <label for="factura" class="form-label small">Si tienes un cupón ingrésalo aquí:</label>
+                        <form class="d-flex">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Cupon" required>
+                                <button class="btn btn-outline-secondary" type="submit">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-header fw-bold txt:uppercase">
+                        <table class="table table-borderless text-center">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h5>Subtotal</h5>
+                                    </td>
+                                    <td id="subtotal">
+                                        <!-- Numero es manejado a traves de javascript -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5>Envio</h5>
+                                    </td>
+                                    <td id="envio">$0.00</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-primary">
+                                        <h5>Total<br> (iva incluido)</h5>
+                                    </td>
+                                    <td id="total" class="text-primary">$0.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-body pb-4">
+                        <div class="form-check d-flex justify-content-center">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="terminos">
+                            <label class="form-check-label" for="terminos">
+                                Acepto terminos y condiciones
+                            </label>
+                        </div>
+                    </div>
+                    <div class="card-footer p-3 text-center bg-white">
+                        <button class="btn btn-secondary btn-sm">Continuar con el pago</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

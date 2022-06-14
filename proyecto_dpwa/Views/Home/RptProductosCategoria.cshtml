@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "RptProductosCategoria";
+}
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="sweetalert2.all.min.js"></script>
+
+<script>
+$(document).ready(function () {
+cargarCombo();
+var combo = $("#comboParametro");
+//BOTON INCRUSTAR
+    $("#btnIncrustar").on("click", function () {
+        <a href="~/Views/Home/RptProductosCategoria.cshtml">~/Views/Home/RptProductosCategoria.cshtml</a>
+if (combo.val() == "") {
+    //alert('Debe seleccionar un parametro para el reporte');
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Debe seleccionar un parametro para el reporte',
+    })
+} else {
+var item = combo.val(); var url = "@Url.Action("VerRptProductosCategoria", "Home")?parametro=" + item;
+$("#reporteParam").attr("src", url).load();
+    }
+    });
+//BOTON DESCARGAR
+$("#btnDescargar").on("click", function () {
+if (combo.val() == "") {
+    //alert('Debe seleccionar un parametro para el reporte');
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Debe seleccionar un parametro para el reporte',
+    })
+} else {
+var item = combo.val(); var url = "@Url.Action("VerRptProductosCategoria", "Home")?parametro=" + item;
+window.open(url);
+}
+});
+});
+function cargarCombo() {
+$.ajax({ url: "@Url.Action("GetCategoria", "Categoria")",
+dataType: "JSON",
+type:"GET"
+}).done(function (resp) {
+console.log(resp);
+var data = JSON.parse(JSON.stringify(resp));
+var opciones = "";
+for (i = 0; i < data.resultado.length; i++) {
+opciones += "<option value='" + data.resultado[i] + "'>" + data.resultado[i] + "</option>";
+}
+$("#comboParametro").append(opciones);
+}).fail(function () {
+console.log("error");
+});
+}
+</script>
+
+<main class="my-5">
+    <div class="container">
+        <div class="row">
+            <!-- Resporte con Parametro Productos-->
+            <div class="col-md-12">
+                <h2>Reporte Productos por Categoria</h2>
+                <hr />
+                <input type="button" id="btnIncrustar" value="Ver Reporte" class="btn btn-success" />
+                <input type="button" id="btnDescargar" value="Descargar Reporte" class="btn btn-warning" />
+                <hr />
+                <br/><label>Categoria:</label><br />
+                <select id="comboParametro" class="form-control">
+                    <option value="">-- Seleccione una Categoria --</option>
+                </select>
+                <hr />
+                <iframe id="reporteParam" style="width:100%; height:600px;" frameborder="0" scrolling="yes">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</main>
+
